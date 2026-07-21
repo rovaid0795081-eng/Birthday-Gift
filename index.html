@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday! 🎉</title>
+  <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      color: #333;
+      padding: 20px;
+    }
+
+    /* Main Container Card */
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      position: relative;
+      z-index: 10;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #ff4081;
+      margin-bottom: 10px;
+    }
+
+    p.subtitle {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    /* Interactive Gift Area */
+    .gift-btn {
+      background-color: #ff4081;
+      color: #fff;
+      border: none;
+      padding: 14px 28px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .gift-btn:hover {
+      background-color: #e0356f;
+      transform: translateY(-3px) scale(1.03);
+    }
+
+    .gift-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* Hidden Wish Message */
+    .wish-message {
+      display: none;
+      margin-top: 25px;
+      padding: 20px;
+      background: #fff0f5;
+      border-radius: 15px;
+      border: 2px dashed #ff80ab;
+      animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .wish-message h2 {
+      color: #d81b60;
+      margin-bottom: 10px;
+    }
+
+    .wish-message p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    /* Confetti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* Keyframe Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas for Confetti Effect -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Main Birthday Card -->
+  <div class="card">
+    <h1>🎂 Happy Birthday! 🎈</h1>
+    <p class="subtitle">Wishing you a day filled with love, laughter, and happiness!</p>
+
+    <button class="gift-btn" onclick="openGift()">🎁 Open Your Gift</button>
+
+    <div class="wish-message" id="wish">
+      <h2>🎉 Surprises & Joy!</h2>
+      <p>May your special day bring you endless joy, success, and wonderful memories. Stay awesome!</p>
+    </div>
+  </div>
+
+  <!-- Canvas Confetti Script via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <script>
+    // Trigger continuous celebratory confetti burst
+    function triggerConfetti() {
+      const duration = 3 * 1000;
+      const animationEnd = Date.now() + duration;
+
+      const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+
+        // Confetti shooting from left and right sides
+        confetti({
+          particleCount,
+          startVelocity: 30,
+          spread: 360,
+          ticks: 60,
+          origin: { x: Math.random(), y: Math.random() - 0.2 }
+        });
+      }, 250);
+    }
+
+    // Interactive button event handler
+    function openGift() {
+      const wishBox = document.getElementById('wish');
+      wishBox.style.display = 'block';
+      triggerConfetti();
+    }
+
+    // Launch a light initial burst on page load
+    window.addEventListener('load', () => {
+      confetti({
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    });
+  </script>
+</body>
+</html>
